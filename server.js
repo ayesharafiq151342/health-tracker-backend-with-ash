@@ -71,7 +71,12 @@ nodeCron.schedule("* * * * *", async () => {
     });
   });
 });
-
+app.get('/',(req,res)=>{
+  res.send({
+    activeStatus:true,
+    error:false
+  })
+})
 app.listen(port, () => {
   console.log(`🚀 Server listening on http://localhost:${port}`);
 });
