@@ -22,10 +22,22 @@ connectDB();
 app.use(express.json());
 app.use(cookieParser());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+const allowedOrigins = [
+  "http://localhost:5173",                        // for local dev
+  "https://health-tracker-2ix3.vercel.app"        // your Vercel frontend
+];
+
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
 }));
+;
 
 // API Endpoints
 app.use('/api/auth', authRouter);
